@@ -1,6 +1,7 @@
 package com.lyl.game;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
  * </p>
  */
 public class GameView extends View {
+
     public GameView(Context context) {
         super(context);
     }
@@ -21,5 +23,18 @@ public class GameView extends View {
 
     public GameView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+    }
+
+    public void startGame() {
+
+    }
+
+    public void actionOpreate() {
+
     }
 }
