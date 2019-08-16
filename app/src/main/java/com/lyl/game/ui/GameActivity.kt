@@ -3,12 +3,15 @@ package com.lyl.game.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.lyl.game.GameBodyFactory
 import com.lyl.game.R
+import com.lyl.game.enums.GameDirection
 import com.lyl.game.enums.GameOperate
 import com.lyl.game.interfaces.ISnakeCallback
+import com.lyl.game.view.SteeringWheelView
 import kotlinx.android.synthetic.main.activity_game.*
 
 /**
@@ -79,10 +82,14 @@ class GameActivity : AppCompatActivity() {
                 tvScore!!.text = "your score: $score"
             }
         })!!)
-        controlView.setDirectionListener { _, _, _, direction -> gameView!!.actionDirection(direction) }
+        controlView.setDirectionListener(object : SteeringWheelView.SteeringWheelListener {
+            override fun onStatusChanged(view: SteeringWheelView, angle: Int, power: Int, direction: GameDirection) {
+                gameView!!.actionDirection(direction)
+            }
+        })
 
-        controlView.setActionListener { v ->
-            when (v.id) {
+        controlView.setActionListener(View.OnClickListener { v ->
+            when (v!!.id) {
                 R.id.btnStart -> gameView!!.actionOperate(GameOperate.Start)
                 R.id.btnSelect -> {
                 }
@@ -92,7 +99,7 @@ class GameActivity : AppCompatActivity() {
                 else -> {
                 }
             }
-        }
+        })
     }
 
     companion object {
