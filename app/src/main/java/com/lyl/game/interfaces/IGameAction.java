@@ -9,10 +9,10 @@ import com.lyl.game.enums.GameOperate;
  */
 public interface IGameAction {
 
-//    /**
-//     * 开始游戏
-//     */
-//    void startGame();
+    /**
+     * 销毁
+     */
+    void destroy();
 
     /**
      * 响应方向
@@ -22,5 +22,5 @@ public interface IGameAction {
     /**
      * 响应操作
      */
-    void actionOperate(GameOperate... operate);
+    void actionOperate(GameOperate operate);
 }

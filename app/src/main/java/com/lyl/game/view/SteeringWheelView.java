@@ -26,26 +26,6 @@ import com.lyl.game.utils.DensityUtil;
 public class SteeringWheelView extends View {
     private static final String TAG = "SteeringWheelView";
     /**
-     * 当前方向无效，方向盘没有触摸时处于该状态
-     */
-    public static final int INVALID = -1;
-    /**
-     * 向右
-     */
-    public static final int RIGHT = 0;
-    /**
-     * 向上
-     */
-    public static final int UP = 1;
-    /**
-     * 向左
-     */
-    public static final int LEFT = 2;
-    /**
-     * 向下
-     */
-    public static final int DOWN = 4;
-    /**
      * 外部监听器
      */
     private SteeringWheelListener mListener;
@@ -240,7 +220,6 @@ public class SteeringWheelView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        Log.d(TAG, "onSizeChanged: w=" + w + "#h=" + h + "#oldw=" + oldw + "#oldh=" + oldh);
         //在layout过程中会回调该方法
         //handle padding
         final int paddingLeft = getPaddingLeft();

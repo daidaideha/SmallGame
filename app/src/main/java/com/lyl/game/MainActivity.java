@@ -1,76 +1,40 @@
 package com.lyl.game;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.lyl.game.enums.GameDirection;
-import com.lyl.game.enums.GameOperate;
-import com.lyl.game.impl.SnakeImpl;
-import com.lyl.game.interfaces.ISnakeCallback;
-import com.lyl.game.view.ControlView;
-import com.lyl.game.view.GameView;
-import com.lyl.game.view.SteeringWheelView;
+import com.lyl.game.ui.GameActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private GameView gameView;
-    private ControlView controlView;
-    private TextView tvScore;
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        gameView = findViewById(R.id.gameView);
-        controlView = findViewById(R.id.controlView);
-        tvScore = findViewById(R.id.tvScore);
-
-        gameView.setGameBody(new SnakeImpl(new ISnakeCallback() {
-
+        drawerLayout = findViewById(R.id.drawerLayout);
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("小游戏集合");
+        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void reDraw() {
-                gameView.invalidate();
-            }
-
-            @Override
-            public void outBorderLine() {
-                new AlertDialog.Builder(MainActivity.this).setTitle("Tip").setMessage("Game Over").setNegativeButton("ok", null).create().show();
-            }
-
-            @Override
-            public void score(int score) {
-                tvScore.setText("your score: " + score);
-            }
-        }));
-        controlView.setDirectionListener(new SteeringWheelView.SteeringWheelListener() {
-            @Override
-            public void onStatusChanged(SteeringWheelView view, int angle, int power, GameDirection direction) {
-                gameView.actionDirection(direction);
+            public void onClick(View v) {
+                drawerLayout.openDrawer(Gravity.LEFT);
             }
         });
 
-        controlView.setActionListener(new View.OnClickListener() {
+        findViewById(R.id.btnSnake).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.btnStart:
-                        gameView.actionOperate(GameOperate.Start);
-                        break;
-                    case R.id.btnSelect:
-                        break;
-                    case R.id.btnA:
-                        gameView.actionOperate(GameOperate.A);
-                        break;
-                    case R.id.btnB:
-                        break;
-                    default:
-                        break;
-                }
+                GameActivity.start(MainActivity.this, GameBodyFactory.GAME_SNAKE);
             }
         });
     }

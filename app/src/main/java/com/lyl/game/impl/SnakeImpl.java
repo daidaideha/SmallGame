@@ -135,22 +135,35 @@ public class SnakeImpl implements IGameBody {
     }
 
     @Override
+    public void destroy() {
+        stopGame();
+        clearOldData();
+        callback = null;
+    }
+
+    @Override
     public void actionDirection(GameDirection direction) {
-        if (this.direction == direction || snakeBody == null || snakeBody.isEmpty() || direction == GameDirection.INVALID) return;
+        if (!isPlaying || this.direction == direction || snakeBody == null || snakeBody.isEmpty() || direction == GameDirection.INVALID)
+            return;
         if (!isHit(snakeBody.get(0), snakeBody.get(1), direction)) {
             this.direction = direction;
         }
     }
 
     @Override
-    public void actionOperate(GameOperate... operates) {
-        for (GameOperate operate : operates) {
-            if (operate == GameOperate.Start) startGame();
-            if (operate == GameOperate.A) {
+    public void actionOperate(GameOperate operate) {
+        switch (operate) {
+            case Start:
+                startGame();
+                break;
+            case A:
+                if (!isPlaying) return;
                 handler.removeCallbacks(runnable);
                 handler.removeCallbacksAndMessages(null);
                 handler.post(runnable);
-            }
+                break;
+            default:
+                break;
         }
     }
 
