@@ -8,7 +8,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.lyl.game.enums.GameDirection;
-import com.lyl.game.enums.GameOpreate;
+import com.lyl.game.enums.GameOperate;
 import com.lyl.game.interfaces.IGameAction;
 import com.lyl.game.interfaces.IGameBody;
 
@@ -43,10 +43,10 @@ public class GameView extends View implements IGameAction {
         if (gameBody != null) gameBody.drawGames(canvas);
     }
 
-    @Override
-    public void startGame() {
-        if (gameBody != null) gameBody.startGame();
-    }
+//    @Override
+//    public void startGame() {
+//        if (gameBody != null) gameBody.startGame();
+//    }
 
     @Override
     public void actionDirection(GameDirection direction) {
@@ -54,7 +54,7 @@ public class GameView extends View implements IGameAction {
     }
 
     @Override
-    public void actionOperate(GameOpreate... operate) {
+    public void actionOperate(GameOperate... operate) {
         if (gameBody != null) gameBody.actionOperate(operate);
     }
 }

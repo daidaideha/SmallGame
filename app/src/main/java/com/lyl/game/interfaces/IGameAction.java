@@ -1,7 +1,7 @@
 package com.lyl.game.interfaces;
 
 import com.lyl.game.enums.GameDirection;
-import com.lyl.game.enums.GameOpreate;
+import com.lyl.game.enums.GameOperate;
 
 /**
  * create lyl on 2019-08-13
@@ -9,10 +9,10 @@ import com.lyl.game.enums.GameOpreate;
  */
 public interface IGameAction {
 
-    /**
-     * 开始游戏
-     */
-    void startGame();
+//    /**
+//     * 开始游戏
+//     */
+//    void startGame();
 
     /**
      * 响应方向
@@ -22,5 +22,5 @@ public interface IGameAction {
     /**
      * 响应操作
      */
-    void actionOperate(GameOpreate... operate);
+    void actionOperate(GameOperate... operate);
 }

@@ -14,54 +14,12 @@
         android:id="@+id/tvScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/controlLayout" />
+        android:layout_above="@+id/controlView" />
 
-    <RelativeLayout
-        android:id="@+id/controlLayout"
+    <com.lyl.game.view.ControlView
+        android:id="@+id/controlView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/btnDown"
-            android:layout_toLeftOf="@+id/btnDown"
-            android:text="left" />
-
-        <Button
-            android:id="@+id/btnUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="up" />
-
-        <Button
-            android:id="@+id/btnStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btnUp"
-            android:layout_centerHorizontal="true"
-            android:text="start" />
-
-        <Button
-            android:id="@+id/btnRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/btnDown"
-            android:layout_toRightOf="@+id/btnDown"
-            android:text="right" />
-
-        <Button
-            android:id="@+id/btnDown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btnStart"
-            android:layout_centerHorizontal="true"
-            android:text="down" />
-
-    </RelativeLayout>
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

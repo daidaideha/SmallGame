@@ -6,5 +6,5 @@ package com.lyl.game.enums;
  */
 public enum GameDirection {
 
-    Left, Up, Right, Down
+    INVALID, Left, Up, Right, Down
 }

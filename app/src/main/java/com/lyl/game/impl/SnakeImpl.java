@@ -8,7 +8,7 @@ import android.os.Handler;
 import com.lyl.game.bean.FoodBean;
 import com.lyl.game.bean.PointBean;
 import com.lyl.game.enums.GameDirection;
-import com.lyl.game.enums.GameOpreate;
+import com.lyl.game.enums.GameOperate;
 import com.lyl.game.interfaces.IGameBody;
 import com.lyl.game.interfaces.ISnakeCallback;
 import com.lyl.game.utils.DensityUtil;
@@ -24,21 +24,66 @@ import java.util.Random;
  */
 public class SnakeImpl implements IGameBody {
 
+    /**
+     * 画笔
+     */
     private Paint mSnakePaint, mFoodPaint, mBackgroundPaint;
+    /**
+     * 动画handler
+     */
     private Handler handler;
+    /**
+     * 动画runnable
+     */
     private Runnable runnable;
 
+    /**
+     * 蛇体数据
+     */
     private List<PointBean> snakeBody = new ArrayList<>();
+    /**
+     * 食物数据
+     */
     private FoodBean foodBean;
+    /**
+     * 反馈
+     */
     private ISnakeCallback callback;
+    /**
+     * 运动方向
+     */
     private GameDirection direction = GameDirection.Right;
+    /**
+     * 单格宽度
+     */
     private float rowWidth;
+    /**
+     * 最大格数
+     */
     private int maxSize;
+    /**
+     * 屏幕宽度
+     */
     private int screenSize;
+    /**
+     * 蛇体宽度
+     */
     private int snakeWidth;
+    /**
+     * 食物宽度
+     */
     private int foodWidth;
+    /**
+     * 当前速度
+     */
     private int speed = 500;
+    /**
+     * 当前得分
+     */
     private int score = 0;
+    /**
+     * 正在游戏中
+     */
     private boolean isPlaying;
 
     public SnakeImpl(ISnakeCallback callback) {
@@ -67,7 +112,6 @@ public class SnakeImpl implements IGameBody {
         mBackgroundPaint.setAntiAlias(true);
         mBackgroundPaint.setColor(Color.GRAY);
 
-        handler = new Handler();
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -91,28 +135,38 @@ public class SnakeImpl implements IGameBody {
     }
 
     @Override
-    public void startGame() {
+    public void actionDirection(GameDirection direction) {
+        if (this.direction == direction || snakeBody == null || snakeBody.isEmpty() || direction == GameDirection.INVALID) return;
+        if (!isHit(snakeBody.get(0), snakeBody.get(1), direction)) {
+            this.direction = direction;
+        }
+    }
+
+    @Override
+    public void actionOperate(GameOperate... operates) {
+        for (GameOperate operate : operates) {
+            if (operate == GameOperate.Start) startGame();
+            if (operate == GameOperate.A) {
+                handler.removeCallbacks(runnable);
+                handler.removeCallbacksAndMessages(null);
+                handler.post(runnable);
+            }
+        }
+    }
+
+    private void startGame() {
         if (isPlaying) return;
         clearOldData();
         isPlaying = true;
+        handler = new Handler();
+        this.score = 0;
+        this.speed = 500;
         int header = new Random().nextInt(maxSize - 4) + 2;
         for (int i = 0; i < 3; i++) {
             snakeBody.add(new PointBean(header - i, header));
         }
         foodBean = createFood(snakeBody);
         runnable.run();
-    }
-
-    @Override
-    public void actionDirection(GameDirection direction) {
-        if (this.direction == direction) return;
-        if (!isHit(snakeBody.get(0), snakeBody.get(1), direction))
-            this.direction = direction;
-    }
-
-    @Override
-    public void actionOperate(GameOpreate... operate) {
-
     }
 
     private void clearOldData() {
@@ -242,6 +296,7 @@ public class SnakeImpl implements IGameBody {
         if (handler != null) {
             handler.removeCallbacks(runnable);
             handler.removeCallbacksAndMessages(null);
+            handler = null;
         }
     }
 }
