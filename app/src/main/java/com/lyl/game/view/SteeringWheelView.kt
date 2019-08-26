@@ -20,6 +20,7 @@ import com.lyl.game.utils.DensityUtil
 import java.lang.Math.*
 import kotlin.math.atan
 import kotlin.math.cos
+import kotlin.math.pow
 import kotlin.math.sin
 
 /**
@@ -220,7 +221,7 @@ class SteeringWheelView : View {
         val width = width - paddingLeft - paddingRight
         val height = height - paddingTop - paddingBottom
 
-        val min = (min(width, height) shr 1)
+        val min = (kotlin.math.min(width, height) shr 1)
         mRadius = (min - mArrowRightDrawable!!.intrinsicWidth / 2).toFloat()
         mCenterX = (paddingLeft + (width shr 1)).toFloat()
         mBallCenterX = mCenterX
@@ -311,11 +312,7 @@ class SteeringWheelView : View {
      * @param value 插值器
      */
     fun interpolator(value: TimeInterpolator?): SteeringWheelView {
-        if (value != null) {
-            mInterpolator = value
-        } else {
-            mInterpolator = OvershootInterpolator()
-        }
+        mInterpolator = value ?: OvershootInterpolator()
         return this
     }
 
@@ -390,15 +387,15 @@ class SteeringWheelView : View {
     }
 
     private fun updatePower() {
-        val x = pow((mBallCenterX - mCenterX).toDouble(), 2.0)
-        val y = pow((mBallCenterY - mCenterY).toDouble(), 2.0)
-        val s = sqrt(x + y)
+        val x = (mBallCenterX - mCenterX).toDouble().pow(2.0)
+        val y = (mBallCenterY - mCenterY).toDouble().pow(2.0)
+        val s = kotlin.math.sqrt(x + y)
         mPower = (100 * s / (mRadius - mBallRadius)).toInt()
         Log.d(TAG, "updatePower: mPower = $mPower")
     }
 
     private fun outOfRange(newX: Int, newY: Int): Boolean {
-        return pow((newX - mCenterX).toDouble(), 2.0) + pow((newY - mCenterY).toDouble(), 2.0) > pow((mRadius - mBallRadius).toDouble(), 2.0)
+        return (newX - mCenterX).toDouble().pow(2.0) + (newY - mCenterY).toDouble().pow(2.0) > (mRadius - mBallRadius).toDouble().pow(2.0)
     }
 
     /**
@@ -407,7 +404,7 @@ class SteeringWheelView : View {
      * @return 方向值
      */
     private fun updateDirection(): GameDirection {
-        mDirection = if (abs(mCenterX - mBallCenterX) < 0.00000001 && abs(mCenterY - mBallCenterY) < 0.00000001)
+        mDirection = if (kotlin.math.abs(mCenterX - mBallCenterX) < 0.00000001 && kotlin.math.abs(mCenterY - mBallCenterY) < 0.00000001)
             GameDirection.INVALID
         else if (mAngle <= 45 || mAngle > 315)
             GameDirection.Right

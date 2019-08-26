@@ -67,6 +67,13 @@ class GameActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener { onBackPressed() }
         gameView.setGameBody(GameBodyFactory.createGameBody(gameType, object : ISnakeCallback {
 
+            override fun onPause() {
+                if (isFinishing) return
+                AlertDialog.Builder(this@GameActivity).setTitle("Tip").setMessage("Game Pause").setCancelable(false)
+                        .setNegativeButton("restart") { _, _ -> gameView!!.actionOperate(GameOperate.Select) }
+                        .setPositiveButton("exit") { _, _ -> finish() }.create().show()
+            }
+
             override fun reDraw() {
                 if (isFinishing) return
                 gameView!!.invalidate()
@@ -91,8 +98,7 @@ class GameActivity : AppCompatActivity() {
         controlView.setActionListener(View.OnClickListener { v ->
             when (v!!.id) {
                 R.id.btnStart -> gameView!!.actionOperate(GameOperate.Start)
-                R.id.btnSelect -> {
-                }
+                R.id.btnSelect -> gameView!!.actionOperate(GameOperate.Select)
                 R.id.btnA -> gameView!!.actionOperate(GameOperate.A)
                 R.id.btnB -> {
                 }

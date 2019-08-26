@@ -8,6 +8,7 @@ import com.lyl.game.bean.FoodBean
 import com.lyl.game.bean.PointBean
 import com.lyl.game.enums.GameDirection
 import com.lyl.game.enums.GameOperate
+import com.lyl.game.enums.GameStatus
 import com.lyl.game.interfaces.IGameBody
 import com.lyl.game.interfaces.ISnakeCallback
 import com.lyl.game.utils.DensityUtil
@@ -76,9 +77,9 @@ class SnakeImpl(private var callback: ISnakeCallback?) : IGameBody {
      */
     private var score = 0
     /**
-     * 正在游戏中
+     * 游戏状态
      */
-    private var isPlaying: Boolean = false
+    private var status = GameStatus.End
 
     init {
         maxSize = when {
@@ -103,7 +104,7 @@ class SnakeImpl(private var callback: ISnakeCallback?) : IGameBody {
         mBackgroundPaint.color = Color.GRAY
 
         runnable = Runnable {
-            if (this@SnakeImpl.callback != null && isPlaying) {
+            if (this@SnakeImpl.callback != null && status == GameStatus.Playing) {
                 this@SnakeImpl.callback!!.reDraw()
                 val eatFood = isHit(snakeBody[0], foodBean!!.pointBean, direction)
                 updateSnake(snakeBody, direction, eatFood)
@@ -127,7 +128,7 @@ class SnakeImpl(private var callback: ISnakeCallback?) : IGameBody {
     }
 
     override fun actionDirection(direction: GameDirection) {
-        if (!isPlaying || this.direction == direction || snakeBody.isEmpty() || direction == GameDirection.INVALID)
+        if (status != GameStatus.Playing || this.direction == direction || snakeBody.isEmpty() || direction == GameDirection.INVALID)
             return
         if (!isHit(snakeBody[0], snakeBody[1], direction)) {
             this.direction = direction
@@ -137,21 +138,26 @@ class SnakeImpl(private var callback: ISnakeCallback?) : IGameBody {
     override fun actionOperate(operate: GameOperate) {
         when (operate) {
             GameOperate.Start -> startGame()
+            GameOperate.Select -> pauseGame()
             GameOperate.A -> {
-                if (!isPlaying) return
-                handler!!.removeCallbacks(runnable)
-                handler!!.removeCallbacksAndMessages(null)
-                handler!!.post(runnable)
+                if (status != GameStatus.Playing) return
+                runNow()
             }
             else -> {
             }
         }
     }
 
+    private fun runNow() {
+        handler!!.removeCallbacks(runnable)
+        handler!!.removeCallbacksAndMessages(null)
+        handler!!.post(runnable)
+    }
+
     private fun startGame() {
-        if (isPlaying) return
+        if (status != GameStatus.End) return
         clearOldData()
-        isPlaying = true
+        status = GameStatus.Playing
         handler = Handler()
         this.score = 0
         this.speed = 500
@@ -163,6 +169,19 @@ class SnakeImpl(private var callback: ISnakeCallback?) : IGameBody {
         runnable.run()
     }
 
+    private fun pauseGame() {
+        if (status == GameStatus.Pause) {
+            status = GameStatus.Playing
+            runNow()
+            return
+        }
+        if (status == GameStatus.Playing) {
+            status = GameStatus.Pause
+            if (callback != null) callback!!.onPause()
+            return
+        }
+    }
+
     private fun clearOldData() {
         snakeBody.clear()
         foodBean = null
@@ -170,10 +189,10 @@ class SnakeImpl(private var callback: ISnakeCallback?) : IGameBody {
 
     private fun drawBackground(canvas: Canvas) {
         canvas.drawRect(0f, 0f, screenSize.toFloat(), screenSize.toFloat(), mBackgroundPaint)
-        for (i in 0 until maxSize) {
-            canvas.drawLine(0f, i * rowWidth, screenSize.toFloat(), i * rowWidth, mSnakePaint)
-            canvas.drawLine(i * rowWidth, 0f, i * rowWidth, screenSize.toFloat(), mSnakePaint)
-        }
+//        for (i in 0 until maxSize) {
+//            canvas.drawLine(0f, i * rowWidth, screenSize.toFloat(), i * rowWidth, mSnakePaint)
+//            canvas.drawLine(i * rowWidth, 0f, i * rowWidth, screenSize.toFloat(), mSnakePaint)
+//        }
     }
 
     private fun drawFood(canvas: Canvas) {
@@ -272,7 +291,7 @@ class SnakeImpl(private var callback: ISnakeCallback?) : IGameBody {
     }
 
     private fun stopGame() {
-        isPlaying = false
+        status = GameStatus.End
         if (handler != null) {
             handler!!.removeCallbacks(runnable)
             handler!!.removeCallbacksAndMessages(null)

@@ -11,4 +11,6 @@ interface ISnakeCallback {
     fun outBorderLine()
 
     fun score(score: Int)
+
+    fun onPause()
 }
