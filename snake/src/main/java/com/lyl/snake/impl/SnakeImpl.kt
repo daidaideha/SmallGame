@@ -9,7 +9,7 @@ import com.lyl.base.enums.GameDirection
 import com.lyl.base.enums.GameOperate
 import com.lyl.base.enums.GameStatus
 import com.lyl.base.interfaces.IGameBody
-import com.lyl.base.interfaces.ISnakeCallback
+import com.lyl.snake.interfaces.ISnakeCallback
 import com.lyl.base.utils.DensityUtil
 import com.lyl.snake.bean.FoodBean
 import java.util.*

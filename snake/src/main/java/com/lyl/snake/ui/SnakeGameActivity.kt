@@ -7,27 +7,24 @@ import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.lyl.base.enums.GameDirection
 import com.lyl.base.enums.GameOperate
-import com.lyl.base.interfaces.ISnakeCallback
+import com.lyl.base.utils.ARouterConstants
 import com.lyl.base.view.SteeringWheelView
 import com.lyl.snake.R
 import com.lyl.snake.impl.SnakeImpl
+import com.lyl.snake.interfaces.ISnakeCallback
 import kotlinx.android.synthetic.main.activity_game.*
-import java.lang.Exception
 
 /**
  * create lyl on 2019-08-28
  *
  */
-@Route(path = "/snake/main")
+@Route(path = ARouterConstants.SNAKE_GAME_VIEW)
 class SnakeGameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        try {
-            setContentView(R.layout.activity_game)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        setContentView(R.layout.activity_game)
+
         initView()
     }
 
@@ -63,7 +60,7 @@ class SnakeGameActivity : AppCompatActivity() {
                 if (isFinishing) return
                 var level = score / 2
                 if (level >= 25) level = 25
-                tvScore!!.text = "你已获得: ${score}分, 速度等级${level}"
+                tvScore!!.text = "你已获得: ${score}分, 速度等级${level + 1}"
             }
         }))
         controlView.setDirectionListener(object : SteeringWheelView.SteeringWheelListener {

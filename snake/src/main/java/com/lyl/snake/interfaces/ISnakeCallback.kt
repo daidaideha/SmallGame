@@ -1,4 +1,4 @@
-package com.lyl.base.interfaces
+package com.lyl.snake.interfaces
 
 /**
  * create lyl on 2019-08-13

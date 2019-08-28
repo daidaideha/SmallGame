@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.launcher.ARouter
+import com.lyl.base.utils.ARouterConstants
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener { drawerLayout!!.openDrawer(Gravity.LEFT) }
 
         btnSnake.setOnClickListener {
-            ARouter.getInstance().build("/snake/main").navigation()
+            ARouter.getInstance().build(ARouterConstants.SNAKE_GAME_VIEW).navigation()
         }
     }
 }
