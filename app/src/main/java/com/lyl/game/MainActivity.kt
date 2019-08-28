@@ -2,9 +2,8 @@ package com.lyl.game
 
 import android.os.Bundle
 import android.view.Gravity
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.lyl.game.ui.GameActivity
+import com.alibaba.android.arouter.launcher.ARouter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +16,8 @@ class MainActivity : AppCompatActivity() {
         toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp)
         toolbar.setNavigationOnClickListener { drawerLayout!!.openDrawer(Gravity.LEFT) }
 
-        findViewById<View>(R.id.btnSnake).setOnClickListener { GameActivity.start(this@MainActivity, GameBodyFactory.GAME_SNAKE) }
+        btnSnake.setOnClickListener {
+            ARouter.getInstance().build("/snake/main").navigation()
+        }
     }
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dp">
+
+    <com.lyl.base.view.SteeringWheelView
+        android:id="@+id/steeringWheelView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="bottom|start"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        app:arrowRight="@mipmap/ic_keyboard_arrow_right_black_48dp"
+        app:ballColor="#33b5e5"
+        app:ballPressedSrc="@mipmap/ic_blur_circular_black_48dp_pressed"
+        app:ballSrc="@mipmap/ic_blur_circular_black_48dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSelect"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLine2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="50dp"
+        android:layout_height="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/shape_operate_start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideLine" />
+
+    <Button
+        android:id="@+id/btnSelect"
+        android:layout_width="50dp"
+        android:layout_height="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/shape_operate_select"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/guideLine" />
+
+    <Button
+        android:id="@+id/btnA"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="A"
+        app:layout_constraintRight_toLeftOf="@+id/btnB"
+        app:layout_constraintTop_toBottomOf="@+id/guideLine2" />
+
+    <Button
+        android:id="@+id/btnB"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:text="B"
+        app:layout_constraintBottom_toBottomOf="@+id/guideLine2"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
